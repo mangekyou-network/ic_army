@@ -1,0 +1,19 @@
+type StoredCall = 
+ record {
+   args: opt blob;
+   deposit: opt nat;
+   method: text;
+   timestamp: int;
+ };
+type Result = 
+ variant {
+   err: text;
+   ok: text;
+ };
+service : {
+  clear_state: () -> ();
+  executeDecision: (text) -> (Result);
+  get_calls: () -> (vec StoredCall) query;
+  test_method: (blob, nat) -> (Result);
+  test_method_no_transfer: (blob) -> (Result);
+}

@@ -1,0 +1,38 @@
+type AgentType = variant { MarketSentiment; RiskManager; TechnicalAnalyst };
+type Result = variant { ok : text; err : text };
+type TaskRegistry = service {
+  assignAgentToTask : (text, principal, AgentType) -> (Result);
+  createTradingTask : (
+      text,
+      text,
+      vec text,
+      record {
+        timeframes : vec text;
+        pairs : vec text;
+        targetReturn : float64;
+        riskLevel : variant { Low; High; Medium };
+        maxDrawdown : float64;
+      },
+    ) -> (Result);
+  getActiveTasks : () -> (vec TradingTask) query;
+  getAgentTasks : (principal) -> (vec text) query;
+  getTask : (text) -> (opt TradingTask) query;
+  getTaskAgents : (text) -> (vec principal) query;
+};
+type TradingTask = record {
+  id : text;
+  status : variant { Paused; Active; Completed };
+  name : text;
+  createdAt : int;
+  parameters : record {
+    timeframes : vec text;
+    pairs : vec text;
+    targetReturn : float64;
+    riskLevel : variant { Low; High; Medium };
+    maxDrawdown : float64;
+  };
+  description : text;
+  requirements : vec text;
+  assignedAgents : vec principal;
+};
+service : () -> TaskRegistry

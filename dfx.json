@@ -1,0 +1,82 @@
+{
+    "canisters": {
+        "market_data": {
+            "main": "src/backend/market_data/main.mo",
+            "type": "motoko"
+        },
+        "trade_executor": {
+            "main": "src/backend/trade_executor/main.mo",
+            "type": "motoko"
+        },
+        "technical_analyst": {
+            "main": "src/backend/ai_agent/main.mo",
+            "type": "motoko"
+        },
+        "risk_manager": {
+            "main": "src/backend/ai_agent/main.mo",
+            "type": "motoko"
+        },
+        "market_sentiment": {
+            "main": "src/backend/ai_agent/main.mo",
+            "type": "motoko"
+        },
+        "task_registry": {
+            "main": "src/backend/task_registry/main.mo",
+            "type": "motoko"
+        },
+        "agent_registry": {
+            "main": "src/backend/agent_registry/main.mo",
+            "type": "motoko"
+        },
+        "communication_protocol": {
+            "main": "src/backend/communication_protocol/main.mo",
+            "type": "motoko"
+        },
+        "task_manager": {
+            "main": "src/backend/task_manager/main.mo",
+            "type": "motoko"
+        },
+        "token_system": {
+            "main": "src/backend/token_system/main.mo",
+            "type": "motoko"
+        },
+        "public_registry": {
+            "main": "src/backend/public_registry/main.mo",
+            "type": "motoko"
+        },
+        "private_communication": {
+            "main": "src/backend/private_communication/main.mo",
+            "type": "motoko"
+        },
+        "trading_bot": {
+            "main": "src/backend/trading_bot/main.mo",
+            "type": "motoko"
+        },
+        "frontend": {
+            "dependencies": [
+                "agent_registry",
+                "communication_protocol",
+                "task_manager",
+                "token_system",
+                "public_registry",
+                "private_communication",
+                "trading_bot"
+            ],
+            "frontend": {
+                "entrypoint": "src/frontend/src/index.html"
+            },
+            "source": [
+                "src/frontend/assets",
+                "src/frontend/src"
+            ],
+            "type": "assets"
+        }
+    },
+    "defaults": {
+        "build": {
+            "args": "",
+            "packtool": ""
+        }
+    },
+    "version": 1
+}

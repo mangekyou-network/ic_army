@@ -1,0 +1,42 @@
+type ExecutionData = record {
+  executionTimestamp : int;
+  fees : float64;
+  executionPrice : float64;
+  txHash : text;
+};
+type Result = variant { ok : text; err : text };
+type Trade = record {
+  id : text;
+  status : variant { Failed; Executed; Pending };
+  action : variant { Buy; Sell };
+  pair : text;
+  stopLoss : float64;
+  timestamp : int;
+  price : float64;
+  executionData : opt ExecutionData;
+  amount : float64;
+  calimeroContextId : text;
+};
+type TradeExecutor = service {
+  authorizeContext : (text) -> (Result);
+  executeTrade : (
+      text,
+      text,
+      variant { Buy; Sell },
+      float64,
+      float64,
+      float64,
+    ) -> (Result);
+  getContextTrades : (text) -> (vec Trade) query;
+  getTrade : (text) -> (opt Trade) query;
+  transform : (record { context : blob; response : http_request_result }) -> (
+      http_request_result,
+    ) query;
+};
+type http_header = record { value : text; name : text };
+type http_request_result = record {
+  status : nat;
+  body : blob;
+  headers : vec http_header;
+};
+service : TradeExecutor

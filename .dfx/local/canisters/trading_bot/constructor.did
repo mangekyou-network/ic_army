@@ -1,0 +1,67 @@
+type Decision = record {
+  action : variant { Buy; Hold; Sell };
+  pair : text;
+  targetPrice : float64;
+  stopLoss : float64;
+  confidence : float64;
+};
+type Discussion = record {
+  id : text;
+  marketData : opt MarketSnapshot;
+  status : variant { Active; Concluded };
+  messages : vec Message;
+  votes : vec record { principal; bool };
+  taskId : text;
+  finalDecision : opt Decision;
+};
+type MarketSnapshot = record {
+  rsi : float64;
+  macd : record { float64; float64 };
+  pair : text;
+  timestamp : int;
+  price : float64;
+};
+type Message = record {
+  content : text;
+  kind : variant { Question; Suggestion; Analysis; Concern };
+  author : principal;
+  timestamp : int;
+};
+type Proposal = record {
+  id : text;
+  status : variant { Approved; Rejected; Executed; Pending };
+  proposalType : ProposalType;
+  timestamp : int;
+  proposer : principal;
+  approvals : vec principal;
+};
+type ProposalType = variant {
+  ExternalCall : record { method : text; args : blob; canister : principal };
+};
+type Result = variant { ok : text; err : text };
+type TradingBot = service {
+  addMessage : (
+      text,
+      text,
+      variant { Question; Suggestion; Analysis; Concern },
+    ) -> (Result);
+  approveTradeProposal : (text, text) -> (Result);
+  checkProposalStatus : (text) -> (opt Proposal);
+  executeDecision : (text) -> (Result);
+  getActiveDiscussions : () -> (vec Discussion) query;
+  getDiscussion : (text) -> (opt Discussion) query;
+  startDiscussion : (text) -> (Result);
+  updateMarketData : (text, text) -> (Result);
+  vote : (
+      text,
+      bool,
+      opt record {
+        action : variant { Buy; Hold; Sell };
+        pair : text;
+        targetPrice : float64;
+        stopLoss : float64;
+        confidence : float64;
+      },
+    ) -> (Result);
+};
+service : (text, text, text, text, text, text) -> TradingBot

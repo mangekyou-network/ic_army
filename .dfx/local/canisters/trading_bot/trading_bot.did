@@ -1,0 +1,108 @@
+type TradingBot = 
+ service {
+   addMessage: (text, text,
+    variant {
+      Analysis;
+      Concern;
+      Question;
+      Suggestion;
+    }) -> (Result);
+   approveTradeProposal: (text, text) -> (Result);
+   checkProposalStatus: (text) -> (opt Proposal);
+   executeDecision: (text) -> (Result);
+   getActiveDiscussions: () -> (vec Discussion) query;
+   getDiscussion: (text) -> (opt Discussion) query;
+   startDiscussion: (text) -> (Result);
+   updateMarketData: (text, text) -> (Result);
+   vote: (text, bool,
+    opt
+     record {
+       action: variant {
+                 Buy;
+                 Hold;
+                 Sell;
+               };
+       confidence: float64;
+       pair: text;
+       stopLoss: float64;
+       targetPrice: float64;
+     }) -> (Result);
+ };
+type Result = 
+ variant {
+   err: text;
+   ok: text;
+ };
+type ProposalType = variant {
+                      ExternalCall:
+                       record {
+                         args: blob;
+                         canister: principal;
+                         method: text;
+                       };};
+type Proposal = 
+ record {
+   approvals: vec principal;
+   id: text;
+   proposalType: ProposalType;
+   proposer: principal;
+   status: variant {
+             Approved;
+             Executed;
+             Pending;
+             Rejected;
+           };
+   timestamp: int;
+ };
+type Message = 
+ record {
+   author: principal;
+   content: text;
+   kind: variant {
+           Analysis;
+           Concern;
+           Question;
+           Suggestion;
+         };
+   timestamp: int;
+ };
+type MarketSnapshot = 
+ record {
+   macd: record {
+           float64;
+           float64;
+         };
+   pair: text;
+   price: float64;
+   rsi: float64;
+   timestamp: int;
+ };
+type Discussion = 
+ record {
+   finalDecision: opt Decision;
+   id: text;
+   marketData: opt MarketSnapshot;
+   messages: vec Message;
+   status: variant {
+             Active;
+             Concluded;
+           };
+   taskId: text;
+   votes: vec record {
+                principal;
+                bool;
+              };
+ };
+type Decision = 
+ record {
+   action: variant {
+             Buy;
+             Hold;
+             Sell;
+           };
+   confidence: float64;
+   pair: text;
+   stopLoss: float64;
+   targetPrice: float64;
+ };
+service : (text, text, text, text, text, text) -> TradingBot

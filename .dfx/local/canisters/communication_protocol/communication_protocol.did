@@ -1,0 +1,38 @@
+type Result = 
+ variant {
+   err: text;
+   ok: text;
+ };
+type MessageType = 
+ variant {
+   DataRequest;
+   DataResponse;
+   StatusUpdate;
+   TaskAssignment;
+ };
+type Message = 
+ record {
+   content: text;
+   encryptionMetadata: opt EncryptionMetadata;
+   from: principal;
+   id: text;
+   messageType: MessageType;
+   timestamp: int;
+   to: principal;
+ };
+type EncryptionMetadata = 
+ record {
+   encryptionMethod: text;
+   nonce: opt text;
+   publicKeyHash: text;
+ };
+type CommunicationProtocol = 
+ service {
+   getContextMembers: () -> (vec principal);
+   getMessages: (principal) -> (vec Message) query;
+   getPublicKey: (principal) -> (opt text) query;
+   registerPublicKey: (text) -> (Result);
+   sendMessage: (principal, text, MessageType, opt EncryptionMetadata) ->
+    (Result);
+ };
+service : (text) -> CommunicationProtocol

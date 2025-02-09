@@ -1,0 +1,33 @@
+type http_request_result = 
+ record {
+   body: blob;
+   headers: vec http_header;
+   status: nat;
+ };
+type http_header = 
+ record {
+   name: text;
+   value: text;
+ };
+type Result_1 = 
+ variant {
+   err: text;
+   ok: record {
+         float64;
+         float64;
+       };
+ };
+type Result = 
+ variant {
+   err: text;
+   ok: float64;
+ };
+service : {
+  getMACD: (text) -> (Result_1);
+  getPrice: (text) -> (Result);
+  getRSI: (text, nat) -> (Result);
+  transform: (record {
+                context: blob;
+                response: http_request_result;
+              }) -> (http_request_result) query;
+}

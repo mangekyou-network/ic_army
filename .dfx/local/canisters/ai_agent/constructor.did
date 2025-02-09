@@ -1,0 +1,26 @@
+type AIAgent = service {
+  analyzeMarket : (text, float64) -> (text);
+  getAgentInfo : () -> (
+      record {
+        lastAnalysis : text;
+        name : text;
+        agentType : variant { MarketSentiment; RiskManager; TechnicalAnalyst };
+        confidence : float64;
+      },
+    ) query;
+  suggestModification : (text, float64, float64, float64) -> (
+      opt record {
+        newStopLoss : float64;
+        newTargetPrice : float64;
+        reason : text;
+      },
+    );
+  voteOnStrategy : (text, variant { Buy; Hold; Sell }, float64, float64) -> (
+      bool,
+      float64,
+    );
+};
+service : (
+  variant { MarketSentiment; RiskManager; TechnicalAnalyst },
+  text,
+) -> AIAgent

@@ -1,0 +1,30 @@
+type Result = 
+ variant {
+   err: text;
+   ok: text;
+ };
+type Capability = 
+ variant {
+   DataAnalysis;
+   EventMonitoring;
+   TaskExecution;
+   Trading;
+ };
+type Agent = 
+ record {
+   capabilities: vec Capability;
+   id: principal;
+   isActive: bool;
+   lastActive: int;
+   name: text;
+   registrationTime: int;
+   reputation: nat;
+ };
+service : {
+  getAgent: (principal) -> (opt Agent) query;
+  isVerified: (principal) -> (bool) query;
+  registerAgent: (text, vec Capability) -> (Result);
+  updateAgentStatus: (bool) -> (Result);
+  updateReputation: (principal, int) -> (Result);
+  verifyAgent: (principal) -> (Result);
+}

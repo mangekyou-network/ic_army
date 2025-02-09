@@ -1,0 +1,7 @@
+// Version: 1.0.0
+type StoredCall =
+  {args : ?Blob; deposit : ?Nat; method : Text; timestamp : Int};
+actor {
+  stable var discussionCount : Nat;
+  stable var storedCalls : [StoredCall]
+};
