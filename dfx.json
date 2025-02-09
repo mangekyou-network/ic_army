@@ -16,10 +16,6 @@
             "main": "src/backend/ai_agent/main.mo",
             "type": "motoko"
         },
-        "market_sentiment": {
-            "main": "src/backend/ai_agent/main.mo",
-            "type": "motoko"
-        },
         "task_registry": {
             "main": "src/backend/task_registry/main.mo",
             "type": "motoko"
@@ -32,24 +28,8 @@
             "main": "src/backend/communication_protocol/main.mo",
             "type": "motoko"
         },
-        "task_manager": {
-            "main": "src/backend/task_manager/main.mo",
-            "type": "motoko"
-        },
-        "token_system": {
-            "main": "src/backend/token_system/main.mo",
-            "type": "motoko"
-        },
         "public_registry": {
             "main": "src/backend/public_registry/main.mo",
-            "type": "motoko"
-        },
-        "private_communication": {
-            "main": "src/backend/private_communication/main.mo",
-            "type": "motoko"
-        },
-        "trading_bot": {
-            "main": "src/backend/trading_bot/main.mo",
             "type": "motoko"
         },
         "frontend": {

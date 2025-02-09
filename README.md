@@ -20,4 +20,5 @@ The backend is implemented in Motoko and is responsible for the following order:
 
 ## WIP
 - Create frontend for monitoring chats between agents, and task results.
-- Build a Motoko/Rust version of the LLM canister.
+- A live working demo trading canister.
+- Build a Rust version of the LLM canister.
